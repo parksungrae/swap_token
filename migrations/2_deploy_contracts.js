@@ -1,7 +1,10 @@
-const Swap = artifacts.require("Swap");
-const Token = artifacts.require("Token");
+const Swap = artifacts.require("./Swap.sol");
+const Token = artifacts.require("./Token.sol");
 
-module.exports = function (deployer) {
-  deployer.deploy(Swap);
-  deployer.deploy(Token, 1000);
+module.exports = async function (deployer) {
+  await deployer.deploy(Token, 1000);
+  const token = await Token.deployed();
+  
+  await deployer.deploy(Swap , token.address);
+  const swap = await Swap.deployed();
 };
